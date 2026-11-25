@@ -357,6 +357,14 @@ void System_Toast(std::string_view text) {
 	PushCommand("toast", text);
 }
 
+// PPSSPP_UTILITIES_V01: fixed utility requests only.
+void Android_OpenUtilityCalculator() {
+    PushCommand("utility_calculator_v01", "");
+}
+void Android_OpenUtilityClock() {
+    PushCommand("utility_clock_v01", "");
+}
+
 void System_ShowKeyboard() {
 	PushCommand("showKeyboard", "");
 }

@@ -380,6 +380,25 @@ void MainScreen::CreateViews() {
 			showHomebrewTab = false;
 		}
 
+#if PPSSPP_PLATFORM(ANDROID)
+        // PPSSPP_UTILITIES_V01: append, preserving existing game tab indices.
+        extern void Android_OpenUtilityCalculator();
+        extern void Android_OpenUtilityClock();
+        auto *utilityScroll = new ScrollView(ORIENT_VERTICAL,
+            new LinearLayoutParams(FILL_PARENT, WRAP_CONTENT, 1.0f));
+        auto *utilityList = new LinearLayout(ORIENT_VERTICAL,
+            new LinearLayoutParams(FILL_PARENT, WRAP_CONTENT));
+        utilityList->Add(new TextView("Open an Android utility", ALIGN_HCENTER, false));
+        utilityList->Add(new Choice("Calculator"))->OnClick.Add([](UI::EventParams &) {
+            Android_OpenUtilityCalculator();
+        });
+        utilityList->Add(new Choice("Clock"))->OnClick.Add([](UI::EventParams &) {
+            Android_OpenUtilityClock();
+        });
+        utilityScroll->Add(utilityList);
+        tabHolder_->AddTab("Utilities", ImageID::invalid(), utilityScroll);
+#endif
+
 		if (storageIsTemporary) {
 			LinearLayout *buttonHolder = new LinearLayout(ORIENT_HORIZONTAL, new LinearLayoutParams(WRAP_CONTENT, WRAP_CONTENT));
 			buttonHolder->Add(new Spacer(new LinearLayoutParams(1.0f)));

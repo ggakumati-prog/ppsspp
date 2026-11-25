@@ -1,0 +1,43 @@
+name: PPSSPP Utilities Build
+
+on:
+  push:
+    branches:
+      - utilities-v0.1
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  android:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          submodules: recursive
+
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: android-actions/setup-android@v3
+
+      - name: Install SDK and NDK
+        run: |
+          sdkmanager "platforms;android-36" "ndk;29.0.14206865"
+
+      - name: Build APK
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleNormalOptimized --stacktrace
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: PPSSPP-Utilities-V0.1
+          path: android/build/outputs/apk/**/*.apk
+          if-no-files-found: error

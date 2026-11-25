@@ -1496,9 +1496,9 @@ public class PpssppActivity extends AppCompatActivity implements SensorEventList
 	}
 
 	// PPSSPP_UTILITIES_V01: use Android's normal activity routing.
-	private boolean openUtilityV01(String category) {
+	private boolean openUtilityV01(Intent intent) {
 		try {
-			startActivity(Intent.makeMainSelectorActivity(Intent.ACTION_MAIN, category));
+			startActivity(intent);
 			return true;
 		} catch (android.content.ActivityNotFoundException | SecurityException e) {
 			Toast.makeText(this, "Utility unavailable on this device", Toast.LENGTH_SHORT).show();
@@ -1509,10 +1509,10 @@ public class PpssppActivity extends AppCompatActivity implements SensorEventList
 	public boolean processCommand(String command, String params) {
 		SurfaceView surfView = javaGL ? mGLSurfaceView : mSurfaceView;
 		if (command.equals("utility_calculator_v01")) {
-			return params.isEmpty() && openUtilityV01(Intent.CATEGORY_APP_CALCULATOR);
+			return params.isEmpty() && openUtilityV01(Intent.makeMainSelectorActivity(Intent.ACTION_MAIN, Intent.CATEGORY_APP_CALCULATOR));
 		}
 		if (command.equals("utility_clock_v01")) {
-			return params.isEmpty() && openUtilityV01(Intent.CATEGORY_APP_CLOCK);
+			return params.isEmpty() && openUtilityV01(new Intent(android.provider.AlarmClock.ACTION_SHOW_ALARMS));
 		}
 
 		if (command.equals("launchBrowser")) {

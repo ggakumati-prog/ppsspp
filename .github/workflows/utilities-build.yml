@@ -28,7 +28,7 @@ jobs:
 
       - name: Install SDK and NDK
         run: |
-          sdkmanager "platforms;android-36" "ndk;29.0.14206865"
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platforms;android-36" "ndk;29.0.14206865"
 
       - name: Build APK
         run: |
